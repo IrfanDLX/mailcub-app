@@ -21,18 +21,20 @@ export default function IntroScreen({
   primaryColor = 'blue'
 }: IntroScreenProps) {
   return (
-    <div className="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl mx-auto text-center">
+    <div className="space-y-6">
+      <div className="w-full max-w-4xl">
         {onSkip && (
-          <button
-            onClick={onSkip}
-            className="absolute top-6 right-6 p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
-          >
-            <X className="h-6 w-6" />
-          </button>
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={onSkip}
+              className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
         )}
 
-        <div className="mb-8">
+        <div className="mb-8 text-left">
           <div className={`inline-flex p-6 rounded-3xl bg-${primaryColor}-100 dark:bg-${primaryColor}-900/20 mb-6`}>
             {icon}
           </div>
@@ -52,7 +54,7 @@ export default function IntroScreen({
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-start">
           {onSkip && (
             <button
               onClick={onSkip}
