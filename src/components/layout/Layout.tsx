@@ -29,6 +29,7 @@ export default function Layout({ children, activeSection, onSectionChange, onLog
           onToggleSidebar={toggleSidebar}
           isSidebarOpen={isSidebarOpen}
           onLogout={onLogout}
+          currentSection={activeSection}
         />
         
         <main className="flex-1 overflow-auto p-6">

@@ -9,7 +9,9 @@ import {
   Send, 
   FileText, 
   HelpCircle,
-  ChevronRight
+  ChevronRight,
+  User,
+  CreditCard
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,6 +29,8 @@ const menuItems = [
   { id: 'send-test-email', label: 'Send Test Email', icon: Send },
   { id: 'email-logs', label: 'Email Logs', icon: FileText },
   { id: 'support-tickets', label: 'Support Tickets', icon: HelpCircle },
+  { id: 'profile', label: 'Profile', icon: User },
+  { id: 'subscription', label: 'Subscription', icon: CreditCard },
 ];
 
 export default function Sidebar({ activeSection, onSectionChange, isOpen }: SidebarProps) {
@@ -68,14 +72,14 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
                 className={`
                   w-full flex items-center px-3 py-3 text-left rounded-lg mb-1 transition-colors
                   ${isActive 
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-2 border-blue-700 dark:border-blue-400' 
+                    ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-r-2 border-green-700 dark:border-green-400' 
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }
                 `}
               >
-                <Icon className={`h-5 w-5 mr-3 ${isActive ? 'text-blue-700 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`} />
+                <Icon className={`h-5 w-5 mr-3 ${isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`} />
                 <span className="font-medium">{item.label}</span>
-                {isActive && <ChevronRight className="h-4 w-4 ml-auto text-blue-700 dark:text-blue-400" />}
+                {isActive && <ChevronRight className="h-4 w-4 ml-auto text-green-700 dark:text-green-400" />}
               </button>
             );
           })}
@@ -85,7 +89,7 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <h4 className="font-medium text-gray-900 dark:text-white mb-1">Need help?</h4>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Contact our support team</p>
-            <button className="w-full bg-blue-600 dark:bg-blue-700 text-white text-sm py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+            <button className="w-full bg-green-600 dark:bg-green-700 text-white text-sm py-2 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
               Get Support
             </button>
           </div>

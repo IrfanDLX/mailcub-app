@@ -13,7 +13,7 @@ const StatCard = ({ title, value, total, icon: Icon, trend, color = 'blue' }: an
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-4">
         <div className={`p-3 rounded-lg border ${colorClasses[color]}`}>
           <Icon className="h-6 w-6" />
@@ -25,18 +25,18 @@ const StatCard = ({ title, value, total, icon: Icon, trend, color = 'blue' }: an
           </div>
         )}
       </div>
-      <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
+      <h3 className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">{title}</h3>
       <div className="flex items-end space-x-2">
-        <span className="text-2xl font-bold text-gray-900">{value}</span>
-        {total && <span className="text-gray-500 text-sm mb-1">/ {total}</span>}
+        <span className="text-2xl font-bold text-gray-900 dark:text-white">{value}</span>
+        {total && <span className="text-gray-500 dark:text-gray-400 text-sm mb-1">/ {total}</span>}
       </div>
       {total && (
         <div className="mt-3">
-          <div className="flex justify-between text-xs text-gray-600 mb-1">
+          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
             <span>Usage</span>
             <span>{percentage}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
             <div 
               className={`h-2 rounded-full bg-${color}-500`}
               style={{ width: `${percentage}%` }}
@@ -60,7 +60,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
         <div className={`flex items-center px-3 py-1 rounded-full text-sm font-medium ${
           accountStatus === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
         }`}>
@@ -105,27 +105,27 @@ export default function Dashboard() {
       </div>
 
       {/* Storage Card */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <div className="p-3 rounded-lg border bg-indigo-50 text-indigo-600 border-indigo-200">
+            <div className="p-3 rounded-lg border bg-indigo-50 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-700">
               <Database className="h-6 w-6" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-gray-900">Storage Usage</h3>
-              <p className="text-gray-600">{totalStorage.used} GB / {totalStorage.limit} GB</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Storage Usage</h3>
+              <p className="text-gray-600 dark:text-gray-400">{totalStorage.used} GB / {totalStorage.limit} GB</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {Math.round((totalStorage.used / totalStorage.limit) * 100)}%
             </div>
-            <div className="text-sm text-gray-500">Used</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Used</div>
           </div>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
           <div 
-            className="h-3 rounded-full bg-indigo-500"
+            className="h-3 rounded-full bg-green-500"
             style={{ width: `${(totalStorage.used / totalStorage.limit) * 100}%` }}
           ></div>
         </div>
@@ -134,31 +134,31 @@ export default function Dashboard() {
       {/* Email Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Stats */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Email Statistics</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Email Statistics</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Total Sent</span>
-              <span className="font-semibold text-gray-900">{emailStats.totalSent.toLocaleString()}</span>
+              <span className="text-gray-600 dark:text-gray-400">Total Sent</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{emailStats.totalSent.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Delivered</span>
+              <span className="text-gray-600 dark:text-gray-400">Delivered</span>
               <span className="font-semibold text-green-600">{emailStats.totalDelivered.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Bounced</span>
+              <span className="text-gray-600 dark:text-gray-400">Bounced</span>
               <span className="font-semibold text-red-600">{emailStats.totalBounced.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Deferred</span>
+              <span className="text-gray-600 dark:text-gray-400">Deferred</span>
               <span className="font-semibold text-yellow-600">{emailStats.totalDeferred.toLocaleString()}</span>
             </div>
           </div>
         </div>
 
         {/* Delivery Rate Pie Chart */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Delivery Rate</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Delivery Rate</h3>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -181,14 +181,14 @@ export default function Dashboard() {
         </div>
 
         {/* Delivery Success Rate */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Success Rate</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Success Rate</h3>
           <div className="text-center">
             <div className="text-4xl font-bold text-green-600 mb-2">
               {Math.round((emailStats.totalDelivered / emailStats.totalSent) * 100)}%
             </div>
-            <p className="text-gray-600 mb-4">Delivery Success Rate</p>
-            <div className="w-full bg-gray-200 rounded-full h-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">Delivery Success Rate</p>
+            <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4">
               <div 
                 className="h-4 rounded-full bg-green-500"
                 style={{ width: `${(emailStats.totalDelivered / emailStats.totalSent) * 100}%` }}
@@ -199,8 +199,8 @@ export default function Dashboard() {
       </div>
 
       {/* Email Trends Chart */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Email Trends (Last 7 Days)</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Email Trends (Last 7 Days)</h3>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={emailStats.chartData}>
@@ -211,7 +211,7 @@ export default function Dashboard() {
                 labelFormatter={(value) => new Date(value).toLocaleDateString()}
                 formatter={(value, name) => [value, name.charAt(0).toUpperCase() + name.slice(1)]}
               />
-              <Line type="monotone" dataKey="sent" stroke="#3B82F6" strokeWidth={2} name="sent" />
+              <Line type="monotone" dataKey="sent" stroke="#008748" strokeWidth={2} name="sent" />
               <Line type="monotone" dataKey="delivered" stroke="#10B981" strokeWidth={2} name="delivered" />
               <Line type="monotone" dataKey="bounced" stroke="#EF4444" strokeWidth={2} name="bounced" />
               <Line type="monotone" dataKey="deferred" stroke="#F59E0B" strokeWidth={2} name="deferred" />

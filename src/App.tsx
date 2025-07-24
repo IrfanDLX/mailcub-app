@@ -21,6 +21,8 @@ import EmailAccountManagement from './components/email-accounts/EmailAccountMana
 import SendTestEmail from './components/send-test-email/SendTestEmail';
 import EmailLogs from './components/email-logs/EmailLogs';
 import SupportTickets from './components/support-tickets/SupportTickets';
+import Profile from './components/profile/Profile';
+import Subscription from './components/subscription/Subscription';
 
 type AuthView = 'login' | 'signup' | 'forgot-password';
 
@@ -103,6 +105,10 @@ function App() {
         return <EmailLogs />;
       case 'support-tickets':
         return <SupportTickets />;
+      case 'profile':
+        return <Profile />;
+      case 'subscription':
+        return <Subscription />;
       default:
         return <Dashboard />;
     }
