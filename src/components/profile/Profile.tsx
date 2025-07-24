@@ -31,7 +31,7 @@ export default function Profile() {
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Profile</h1>
         <button
           onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-          className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          className="flex items-center px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
         >
           {isEditing ? (
             <>
@@ -59,7 +59,7 @@ export default function Profile() {
                   className="w-24 h-24 rounded-full object-cover"
                 />
                 {isEditing && (
-                  <button className="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full hover:bg-green-700 transition-colors">
+                  <button className="absolute bottom-0 right-0 bg-green-600 dark:bg-green-700 text-white p-2 rounded-full hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
                     <Camera className="h-4 w-4" />
                   </button>
                 )}
@@ -71,11 +71,11 @@ export default function Profile() {
                 {formData.company}
               </div>
               <div className="flex items-center justify-center space-x-4 text-sm">
-                <div className="flex items-center px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full">
+                <div className="flex items-center px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-full">
                   <Shield className="h-3 w-3 mr-1" />
                   Admin
                 </div>
-                <div className="flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+                <div className="flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 rounded-full">
                   <Key className="h-3 w-3 mr-1" />
                   Pro Plan
                 </div>
@@ -101,7 +101,7 @@ export default function Profile() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Success Rate</span>
-                <span className="font-medium text-green-600">96.5%</span>
+                <span className="font-medium text-green-600 dark:text-green-400">96.5%</span>
               </div>
             </div>
           </div>
@@ -127,7 +127,7 @@ export default function Profile() {
                   />
                 ) : (
                   <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <User className="h-4 w-4 text-gray-400 mr-2" />
+                    <User className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="text-gray-900 dark:text-white">{formData.name}</span>
                   </div>
                 )}
@@ -147,7 +147,7 @@ export default function Profile() {
                   />
                 ) : (
                   <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <Mail className="h-4 w-4 text-gray-400 mr-2" />
+                    <Mail className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="text-gray-900 dark:text-white">{formData.email}</span>
                   </div>
                 )}
@@ -167,7 +167,7 @@ export default function Profile() {
                   />
                 ) : (
                   <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <Building className="h-4 w-4 text-gray-400 mr-2" />
+                    <Building className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="text-gray-900 dark:text-white">{formData.company}</span>
                   </div>
                 )}
@@ -187,7 +187,7 @@ export default function Profile() {
                   />
                 ) : (
                   <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <Phone className="h-4 w-4 text-gray-400 mr-2" />
+                    <Phone className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="text-gray-900 dark:text-white">{formData.phone}</span>
                   </div>
                 )}
@@ -207,7 +207,7 @@ export default function Profile() {
                   />
                 ) : (
                   <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <MapPin className="h-4 w-4 text-gray-400 mr-2" />
+                    <MapPin className="h-4 w-4 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="text-gray-900 dark:text-white">{formData.location}</span>
                   </div>
                 )}
@@ -244,7 +244,7 @@ export default function Profile() {
                   <h4 className="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Add an extra layer of security to your account</p>
                 </div>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <button className="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
                   Enable
                 </button>
               </div>

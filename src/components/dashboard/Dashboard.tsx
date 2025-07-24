@@ -11,15 +11,22 @@ const StatCard = ({ title, value, total, icon: Icon, trend, color = 'blue' }: an
     orange: 'bg-orange-50 text-orange-600 border-orange-200',
     purple: 'bg-purple-50 text-purple-600 border-purple-200',
   };
+    
+  const darkColorClasses = {
+    blue: 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-700',
+    green: 'bg-green-50 text-green-600 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-700',
+    orange: 'bg-orange-50 text-orange-600 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-700',
+    purple: 'bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-700',
+  };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200">
       <div className="flex items-center justify-between mb-4">
-        <div className={`p-3 rounded-lg border ${colorClasses[color]}`}>
+        <div className={`p-3 rounded-lg border ${darkColorClasses[color]}`}>
           <Icon className="h-6 w-6" />
         </div>
         {trend && (
-          <div className={`flex items-center text-sm ${trend > 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <div className={`flex items-center text-sm ${trend > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
             {trend > 0 ? <TrendingUp className="h-4 w-4 mr-1" /> : <TrendingDown className="h-4 w-4 mr-1" />}
             {Math.abs(trend)}%
           </div>
@@ -62,7 +69,9 @@ export default function Dashboard() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
         <div className={`flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-          accountStatus === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          accountStatus === 'active' 
+            ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' 
+            : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
         }`}>
           <CheckCircle className="h-4 w-4 mr-1" />
           Account {accountStatus}
@@ -108,7 +117,7 @@ export default function Dashboard() {
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <div className="p-3 rounded-lg border bg-indigo-50 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-700">
+            <div className="p-3 rounded-lg border bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-700">
               <Database className="h-6 w-6" />
             </div>
             <div className="ml-4">
@@ -125,7 +134,7 @@ export default function Dashboard() {
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
           <div 
-            className="h-3 rounded-full bg-green-500"
+            className="h-3 rounded-full bg-green-500 dark:bg-green-400"
             style={{ width: `${(totalStorage.used / totalStorage.limit) * 100}%` }}
           ></div>
         </div>
@@ -143,15 +152,15 @@ export default function Dashboard() {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-400">Delivered</span>
-              <span className="font-semibold text-green-600">{emailStats.totalDelivered.toLocaleString()}</span>
+              <span className="font-semibold text-green-600 dark:text-green-400">{emailStats.totalDelivered.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-400">Bounced</span>
-              <span className="font-semibold text-red-600">{emailStats.totalBounced.toLocaleString()}</span>
+              <span className="font-semibold text-red-600 dark:text-red-400">{emailStats.totalBounced.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-400">Deferred</span>
-              <span className="font-semibold text-yellow-600">{emailStats.totalDeferred.toLocaleString()}</span>
+              <span className="font-semibold text-yellow-600 dark:text-yellow-400">{emailStats.totalDeferred.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -184,13 +193,13 @@ export default function Dashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Success Rate</h3>
           <div className="text-center">
-            <div className="text-4xl font-bold text-green-600 mb-2">
+            <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
               {Math.round((emailStats.totalDelivered / emailStats.totalSent) * 100)}%
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-4">Delivery Success Rate</p>
             <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4">
               <div 
-                className="h-4 rounded-full bg-green-500"
+                className="h-4 rounded-full bg-green-500 dark:bg-green-400"
                 style={{ width: `${(emailStats.totalDelivered / emailStats.totalSent) * 100}%` }}
               ></div>
             </div>
@@ -204,7 +213,7 @@ export default function Dashboard() {
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={emailStats.chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
               <XAxis dataKey="date" tickFormatter={(value) => new Date(value).toLocaleDateString()} />
               <YAxis />
               <Tooltip 

@@ -117,7 +117,7 @@ export default function Subscription() {
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Current Plan</h2>
-          <div className="flex items-center px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">
+          <div className="flex items-center px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-full text-sm font-medium">
             <CheckCircle className="h-4 w-4 mr-1" />
             Active
           </div>
@@ -126,7 +126,7 @@ export default function Subscription() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
             <div className="flex items-center mb-4">
-              <div className="bg-green-100 dark:bg-green-900 p-3 rounded-lg mr-4">
+              <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-lg mr-4">
                 <CreditCard className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
@@ -148,7 +148,7 @@ export default function Subscription() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Status</span>
-                <span className="font-medium text-green-600">Active</span>
+                <span className="font-medium text-green-600 dark:text-green-400">Active</span>
               </div>
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function Subscription() {
                   <span className="text-gray-900 dark:text-white">7,420 / {formatNumber(currentPlan.limits.emails)}</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '74%' }}></div>
+                  <div className="bg-green-500 dark:bg-green-400 h-2 rounded-full" style={{ width: '74%' }}></div>
                 </div>
               </div>
               <div>
@@ -171,7 +171,7 @@ export default function Subscription() {
                   <span className="text-gray-900 dark:text-white">2 / {formatNumber(currentPlan.limits.domains)}</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '67%' }}></div>
+                  <div className="bg-green-500 dark:bg-green-400 h-2 rounded-full" style={{ width: '67%' }}></div>
                 </div>
               </div>
               <div>
@@ -180,7 +180,7 @@ export default function Subscription() {
                   <span className="text-gray-900 dark:text-white">2.3GB / {formatNumber(currentPlan.limits.storage)}GB</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '46%' }}></div>
+                  <div className="bg-green-500 dark:bg-green-400 h-2 rounded-full" style={{ width: '46%' }}></div>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function Subscription() {
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-green-500 dark:bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">
                     Most Popular
                   </span>
                 </div>
@@ -225,7 +225,7 @@ export default function Subscription() {
               <ul className="space-y-3 mb-6">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400 mr-2 mt-0.5 flex-shrink-0" />
                     <span className="text-sm text-gray-600 dark:text-gray-400">{feature}</span>
                   </li>
                 ))}
@@ -300,12 +300,12 @@ export default function Subscription() {
                 <td className="py-3 text-sm text-gray-900 dark:text-white">Starter Plan - Monthly</td>
                 <td className="py-3 text-sm text-gray-900 dark:text-white">$29.00</td>
                 <td className="py-3">
-                  <span className="px-2 py-1 text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full">
+                  <span className="px-2 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-full">
                     Paid
                   </span>
                 </td>
                 <td className="py-3 text-right">
-                  <button className="text-green-600 dark:text-green-400 hover:text-green-500 text-sm">
+                  <button className="text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300 text-sm">
                     Download
                   </button>
                 </td>
@@ -315,12 +315,12 @@ export default function Subscription() {
                 <td className="py-3 text-sm text-gray-900 dark:text-white">Starter Plan - Monthly</td>
                 <td className="py-3 text-sm text-gray-900 dark:text-white">$29.00</td>
                 <td className="py-3">
-                  <span className="px-2 py-1 text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full">
+                  <span className="px-2 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-full">
                     Paid
                   </span>
                 </td>
                 <td className="py-3 text-right">
-                  <button className="text-green-600 dark:text-green-400 hover:text-green-500 text-sm">
+                  <button className="text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300 text-sm">
                     Download
                   </button>
                 </td>
@@ -332,8 +332,8 @@ export default function Subscription() {
 
       {/* Upgrade Modal */}
       {showUpgradeModal && selectedPlan && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md border border-gray-200 dark:border-gray-700">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Upgrade to {selectedPlan.name}
             </h3>
@@ -369,7 +369,7 @@ export default function Subscription() {
                   // Handle upgrade logic here
                   setShowUpgradeModal(false);
                 }}
-                className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="flex-1 py-2 px-4 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
               >
                 Confirm Upgrade
               </button>
