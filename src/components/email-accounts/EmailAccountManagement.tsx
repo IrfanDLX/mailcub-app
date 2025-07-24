@@ -188,7 +188,7 @@ export default function EmailAccountManagement() {
       <IntroScreen
         title="Email Accounts"
         description="Create and manage email accounts for your verified domains"
-        icon={<AtSign className="h-16 w-16 text-indigo-600" />}
+        icon={<Mail className="h-16 w-16 text-indigo-600" />}
         features={[
           'Create email accounts for verified domains',
           'Monitor storage usage and limits',

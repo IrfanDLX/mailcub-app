@@ -25,7 +25,7 @@ export default function SendTestEmail() {
       <IntroScreen
         title="Send Test Email"
         description="Test your email setup by sending test emails to verify deliverability"
-        icon={<TestTube className="h-16 w-16 text-orange-600" />}
+        icon={<Send className="h-16 w-16 text-orange-600" />}
         features={[
           'Send test emails to verify your setup',
           'Use pre-built email templates',
