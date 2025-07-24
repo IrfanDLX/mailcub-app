@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Mail, User, X, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit, Trash2, Mail, User, X, Eye, EyeOff, AtSign } from 'lucide-react';
 import { EmailAccount } from '../../types';
 import { emailAccounts as initialEmailAccounts, domains } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const EmailAccountModal = ({ 
   account, 
@@ -175,6 +177,29 @@ export default function EmailAccountManagement() {
   const [selectedAccount, setSelectedAccount] = useState<EmailAccount | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingEmailAccounts = () => {
+    markIntroAsSeen('email-accounts');
+  };
+
+  if (!hasSeenIntro('email-accounts')) {
+    return (
+      <IntroScreen
+        title="Email Accounts"
+        description="Create and manage email accounts for your verified domains"
+        icon={<AtSign className="h-16 w-16 text-indigo-600" />}
+        features={[
+          'Create email accounts for verified domains',
+          'Monitor storage usage and limits',
+          'Manage account status and permissions',
+          'Track account creation and activity'
+        ]}
+        onStart={handleStartUsingEmailAccounts}
+        primaryColor="indigo"
+      />
+    );
+  }
 
   const filteredAccounts = emailAccounts.filter(account =>
     account.fullEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||

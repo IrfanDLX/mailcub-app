@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { IntroProvider } from './contexts/IntroContext';
 
 // Auth Components
 import Login from './components/auth/Login';
@@ -124,12 +126,17 @@ function App() {
 
   return (
     <Router>
-      <Layout
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-      >
-        {renderDashboardContent()}
-      </Layout>
+      <ThemeProvider>
+        <IntroProvider>
+          <Layout
+            activeSection={activeSection}
+            onSectionChange={setActiveSection}
+            onLogout={handleLogout}
+          >
+            {renderDashboardContent()}
+          </Layout>
+        </IntroProvider>
+      </ThemeProvider>
     </Router>
   );
 }

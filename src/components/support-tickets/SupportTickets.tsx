@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Search, MessageCircle, Paperclip, Send, X, User, Clock, AlertCircle, Image, Download } from 'lucide-react';
+import { Plus, Search, MessageCircle, Paperclip, Send, X, User, Clock, AlertCircle, Image, Download, HelpCircle } from 'lucide-react';
 import { SupportTicket, TicketMessage } from '../../types';
 import { supportTickets as initialSupportTickets } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const TicketDetailModal = ({ 
   ticket, 
@@ -390,6 +392,29 @@ export default function SupportTickets() {
   const [selectedTicket, setSelectedTicket] = useState<SupportTicket | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingSupportTickets = () => {
+    markIntroAsSeen('support-tickets');
+  };
+
+  if (!hasSeenIntro('support-tickets')) {
+    return (
+      <IntroScreen
+        title="Support Tickets"
+        description="Get help from our support team and track your requests efficiently"
+        icon={<HelpCircle className="h-16 w-16 text-pink-600" />}
+        features={[
+          'Create support tickets for any issues',
+          'Track ticket status and responses',
+          'Attach files and images to tickets',
+          'Communicate directly with support team'
+        ]}
+        onStart={handleStartUsingSupportTickets}
+        primaryColor="pink"
+      />
+    );
+  }
 
   const filteredTickets = tickets.filter(ticket => {
     const matchesSearch = 

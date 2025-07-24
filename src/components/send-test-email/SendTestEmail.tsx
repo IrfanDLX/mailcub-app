@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Send, Mail, User, FileText, Paperclip, CheckCircle } from 'lucide-react';
+import { Send, Mail, User, FileText, Paperclip, CheckCircle, TestTube } from 'lucide-react';
 import { emailAccounts } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 export default function SendTestEmail() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,29 @@ export default function SendTestEmail() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingSendTestEmail = () => {
+    markIntroAsSeen('send-test-email');
+  };
+
+  if (!hasSeenIntro('send-test-email')) {
+    return (
+      <IntroScreen
+        title="Send Test Email"
+        description="Test your email setup by sending test emails to verify deliverability"
+        icon={<TestTube className="h-16 w-16 text-orange-600" />}
+        features={[
+          'Send test emails to verify your setup',
+          'Use pre-built email templates',
+          'Monitor delivery status in real-time',
+          'Test different sender accounts'
+        ]}
+        onStart={handleStartUsingSendTestEmail}
+        primaryColor="orange"
+      />
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

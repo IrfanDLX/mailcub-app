@@ -6,9 +6,10 @@ interface LayoutProps {
   children: React.ReactNode;
   activeSection: string;
   onSectionChange: (section: string) => void;
+  onLogout?: () => void;
 }
 
-export default function Layout({ children, activeSection, onSectionChange }: LayoutProps) {
+export default function Layout({ children, activeSection, onSectionChange, onLogout }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -16,7 +17,7 @@ export default function Layout({ children, activeSection, onSectionChange }: Lay
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar 
         activeSection={activeSection} 
         onSectionChange={onSectionChange}
@@ -27,6 +28,7 @@ export default function Layout({ children, activeSection, onSectionChange }: Lay
         <Header 
           onToggleSidebar={toggleSidebar}
           isSidebarOpen={isSidebarOpen}
+          onLogout={onLogout}
         />
         
         <main className="flex-1 overflow-auto p-6">

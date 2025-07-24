@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Search, Filter, Eye, Download, RefreshCw, Calendar } from 'lucide-react';
+import { Search, Filter, Eye, Download, RefreshCw, Calendar, FileText } from 'lucide-react';
 import { EmailLog } from '../../types';
 import { emailLogs as initialEmailLogs } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const EmailPreviewModal = ({ 
   email, 
@@ -90,6 +92,29 @@ export default function EmailLogs() {
   const [selectedEmail, setSelectedEmail] = useState<EmailLog | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingEmailLogs = () => {
+    markIntroAsSeen('email-logs');
+  };
+
+  if (!hasSeenIntro('email-logs')) {
+    return (
+      <IntroScreen
+        title="Email Logs"
+        description="Track and monitor all your email activity with detailed logs and analytics"
+        icon={<FileText className="h-16 w-16 text-teal-600" />}
+        features={[
+          'View detailed logs of all sent emails',
+          'Filter by status, date, and recipients',
+          'Monitor delivery rates and bounces',
+          'Export logs for analysis'
+        ]}
+        onStart={handleStartUsingEmailLogs}
+        primaryColor="teal"
+      />
+    );
+  }
 
   const handleRefresh = () => {
     setIsLoading(true);

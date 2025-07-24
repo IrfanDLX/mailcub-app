@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, CheckCircle, AlertCircle, XCircle, RefreshCw, X, Copy } from 'lucide-react';
+import { Plus, CheckCircle, AlertCircle, XCircle, RefreshCw, X, Copy, Globe } from 'lucide-react';
 import { Domain } from '../../types';
 import { domains as initialDomains } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const DomainModal = ({ 
   domain, 
@@ -279,6 +281,29 @@ export default function DomainManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDNSModalOpen, setIsDNSModalOpen] = useState(false);
   const [dnsModalDomain, setDNSModalDomain] = useState<Domain | null>(null);
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingDomains = () => {
+    markIntroAsSeen('domains');
+  };
+
+  if (!hasSeenIntro('domains')) {
+    return (
+      <IntroScreen
+        title="Domain Management"
+        description="Connect and verify your domains to start sending emails with your brand"
+        icon={<Globe className="h-16 w-16 text-green-600" />}
+        features={[
+          'Add multiple domains to your account',
+          'Verify domain ownership with DNS records',
+          'Monitor domain verification status',
+          'Manage SPF, DKIM, and MX records'
+        ]}
+        onStart={handleStartUsingDomains}
+        primaryColor="green"
+      />
+    );
+  }
 
   const handleAddDomain = () => {
     setSelectedDomain(null);

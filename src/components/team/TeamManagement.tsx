@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Shield, User, Eye, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield, User, Eye, X, Users } from 'lucide-react';
 import { TeamMember } from '../../types';
 import { teamMembers as initialTeamMembers } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const permissions = [
   { id: 'dashboard', label: 'Dashboard' },
@@ -158,6 +160,29 @@ export default function TeamManagement() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingTeam = () => {
+    markIntroAsSeen('team');
+  };
+
+  if (!hasSeenIntro('team')) {
+    return (
+      <IntroScreen
+        title="Team Management"
+        description="Collaborate with your team members and manage their permissions effectively"
+        icon={<Users className="h-16 w-16 text-blue-600" />}
+        features={[
+          'Invite team members to your workspace',
+          'Assign roles and permissions',
+          'Monitor team member activity',
+          'Manage access to different features'
+        ]}
+        onStart={handleStartUsingTeam}
+        primaryColor="blue"
+      />
+    );
+  }
 
   const filteredMembers = teamMembers.filter(member =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

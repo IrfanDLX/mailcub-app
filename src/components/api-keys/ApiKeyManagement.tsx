@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Copy, Eye, EyeOff, Trash2, MoreVertical, X } from 'lucide-react';
+import { Plus, Copy, Eye, EyeOff, Trash2, MoreVertical, X, Key } from 'lucide-react';
 import { ApiKey } from '../../types';
 import { apiKeys as initialApiKeys } from '../../data/dummyData';
+import { useIntro } from '../../contexts/IntroContext';
+import IntroScreen from '../intro/IntroScreen';
 
 const permissions = [
   { id: 'send', label: 'Send Emails' },
@@ -131,6 +133,29 @@ export default function ApiKeyManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  const handleStartUsingApiKeys = () => {
+    markIntroAsSeen('api-keys');
+  };
+
+  if (!hasSeenIntro('api-keys')) {
+    return (
+      <IntroScreen
+        title="API Keys"
+        description="Secure your applications with API keys and manage access permissions"
+        icon={<Key className="h-16 w-16 text-purple-600" />}
+        features={[
+          'Generate secure API keys for your applications',
+          'Set granular permissions for each key',
+          'Monitor API usage and activity',
+          'Revoke keys instantly when needed'
+        ]}
+        onStart={handleStartUsingApiKeys}
+        primaryColor="purple"
+      />
+    );
+  }
 
   const handleAddApiKey = () => {
     setSelectedApiKey(null);
