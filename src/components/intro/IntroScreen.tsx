@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
 
 interface IntroScreenProps {
   title: string;
@@ -10,58 +10,6 @@ interface IntroScreenProps {
   primaryColor?: string;
 }
 
-const colorClasses = {
-  blue: {
-    gradient: 'from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20',
-    iconBg: 'bg-blue-600 dark:bg-blue-500',
-    button: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600',
-    accent: 'bg-blue-600 dark:bg-blue-500',
-    text: 'text-blue-600 dark:text-blue-400'
-  },
-  green: {
-    gradient: 'from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20',
-    iconBg: 'bg-green-600 dark:bg-green-500',
-    button: 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600',
-    accent: 'bg-green-600 dark:bg-green-500',
-    text: 'text-green-600 dark:text-green-400'
-  },
-  purple: {
-    gradient: 'from-purple-50 to-violet-100 dark:from-purple-900/20 dark:to-violet-900/20',
-    iconBg: 'bg-purple-600 dark:bg-purple-500',
-    button: 'bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600',
-    accent: 'bg-purple-600 dark:bg-purple-500',
-    text: 'text-purple-600 dark:text-purple-400'
-  },
-  indigo: {
-    gradient: 'from-indigo-50 to-blue-100 dark:from-indigo-900/20 dark:to-blue-900/20',
-    iconBg: 'bg-indigo-600 dark:bg-indigo-500',
-    button: 'bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600',
-    accent: 'bg-indigo-600 dark:bg-indigo-500',
-    text: 'text-indigo-600 dark:text-indigo-400'
-  },
-  orange: {
-    gradient: 'from-orange-50 to-amber-100 dark:from-orange-900/20 dark:to-amber-900/20',
-    iconBg: 'bg-orange-600 dark:bg-orange-500',
-    button: 'bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600',
-    accent: 'bg-orange-600 dark:bg-orange-500',
-    text: 'text-orange-600 dark:text-orange-400'
-  },
-  teal: {
-    gradient: 'from-teal-50 to-cyan-100 dark:from-teal-900/20 dark:to-cyan-900/20',
-    iconBg: 'bg-teal-600 dark:bg-teal-500',
-    button: 'bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600',
-    accent: 'bg-teal-600 dark:bg-teal-500',
-    text: 'text-teal-600 dark:text-teal-400'
-  },
-  pink: {
-    gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/20 dark:to-rose-900/20',
-    iconBg: 'bg-pink-600 dark:bg-pink-500',
-    button: 'bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600',
-    accent: 'bg-pink-600 dark:bg-pink-500',
-    text: 'text-pink-600 dark:text-pink-400'
-  }
-};
-
 export default function IntroScreen({ 
   title, 
   description, 
@@ -70,52 +18,156 @@ export default function IntroScreen({
   onStart, 
   primaryColor = 'blue' 
 }: IntroScreenProps) {
-  const colors = colorClasses[primaryColor as keyof typeof colorClasses] || colorClasses.blue;
-
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${colors.gradient} flex items-center justify-center p-4 transition-colors duration-200`}>
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 lg:p-12 border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200">
-          <div className="text-center mb-8">
-            <div className={`inline-flex items-center justify-center w-24 h-24 ${colors.iconBg} rounded-3xl mb-6 shadow-xl relative overflow-hidden`}>
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-              {icon}
-              <div className="absolute -top-1 -right-1">
-                <Sparkles className="h-4 w-4 text-white/80 animate-pulse" />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex transition-colors duration-200">
+      {/* Left Sidebar - Preview/Demo Area */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-2/5 bg-gray-800 dark:bg-gray-950 p-8 items-center justify-center relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, #008748 0%, transparent 50%), 
+                             radial-gradient(circle at 75% 75%, #008748 0%, transparent 50%)`,
+          }}></div>
+        </div>
+        
+        {/* Demo Interface */}
+        <div className="relative z-10 w-full max-w-md">
+          <div className="bg-gray-700 dark:bg-gray-800 rounded-t-lg p-3 border-b border-gray-600">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <div className="ml-4 text-gray-300 text-sm">MailCub Dashboard</div>
+            </div>
+          </div>
+          
+          <div className="bg-white dark:bg-gray-100 rounded-b-lg p-6 shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                  {React.cloneElement(icon as React.ReactElement, { 
+                    className: "h-5 w-5 text-white" 
+                  })}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{title}</h3>
+                  <p className="text-xs text-gray-500">Dashboard</p>
+                </div>
+              </div>
+              <div className="w-6 h-6 bg-gray-200 rounded"></div>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <div className="text-lg font-bold text-blue-600">1,247</div>
+                <div className="text-xs text-blue-500">Emails Sent</div>
+              </div>
+              <div className="bg-green-50 p-3 rounded-lg">
+                <div className="text-lg font-bold text-green-600">98.5%</div>
+                <div className="text-xs text-green-500">Delivery Rate</div>
               </div>
             </div>
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-200 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text">
+
+            {/* Chart Area */}
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <div className="flex items-end space-x-1 h-16">
+                {[40, 65, 45, 80, 55, 70, 85].map((height, index) => (
+                  <div
+                    key={index}
+                    className="bg-green-500 rounded-t flex-1"
+                    style={{ height: `${height}%` }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button 
+              className="w-full py-2 px-4 text-white rounded-lg font-medium transition-colors"
+              style={{ backgroundColor: '#008748' }}
+            >
+              View Analytics
+            </button>
+          </div>
+        </div>
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 right-20 w-16 h-16 bg-green-500/20 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-32 left-16 w-8 h-8 bg-blue-500/20 rounded-full animate-bounce"></div>
+      </div>
+
+      {/* Right Content Area */}
+      <div className="flex-1 flex items-center justify-center p-8">
+        <div className="max-w-2xl w-full">
+          {/* Header */}
+          <div className="text-center lg:text-left mb-8">
+            <div className="flex items-center justify-center lg:justify-start mb-6">
+              <div className="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center shadow-lg relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                {React.cloneElement(icon as React.ReactElement, { 
+                  className: "h-8 w-8 text-white relative z-10" 
+                })}
+                <div className="absolute -top-1 -right-1">
+                  <Sparkles className="h-3 w-3 text-white/80 animate-pulse" />
+                </div>
+              </div>
+            </div>
+            
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
               {title}
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto transition-colors duration-200 leading-relaxed">
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
               {description}
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+
+          {/* Features List */}
+          <div className="space-y-4 mb-10">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-start space-x-4 p-4 rounded-xl bg-gray-50/50 dark:bg-gray-700/30 hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200">
-                <div className={`w-6 h-6 ${colors.accent} rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
+              <div key={index} className="flex items-start space-x-4 group">
+                <div className="w-6 h-6 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
+                  <CheckCircle className="h-3 w-3 text-white" />
                 </div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-200 font-medium">{feature}</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+                  {feature}
+                </span>
               </div>
             ))}
           </div>
-          
-          <div className="text-center">
+
+          {/* CTA Section */}
+          <div className="text-center lg:text-left">
             <button
               onClick={onStart}
-              className={`inline-flex items-center px-10 py-4 ${colors.button} text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg relative overflow-hidden group`}
+              className="inline-flex items-center px-8 py-4 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg relative overflow-hidden group mb-6"
+              style={{ backgroundColor: '#008748' }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
               <span className="relative">Get Started</span>
               <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200 relative" />
             </button>
             
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-6 transition-colors duration-200 max-w-md mx-auto">
+            <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto lg:mx-0">
               This introduction will only show once. You can always access help and documentation from the sidebar menu.
             </p>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="flex items-center justify-center lg:justify-start space-x-8 mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">99.9%</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Uptime</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">10M+</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Emails Sent</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">24/7</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Support</div>
+            </div>
           </div>
         </div>
       </div>
