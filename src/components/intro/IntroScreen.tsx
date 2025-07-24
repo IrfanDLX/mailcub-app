@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface IntroScreenProps {
   title: string;
@@ -73,26 +73,32 @@ export default function IntroScreen({
   const colors = colorClasses[primaryColor as keyof typeof colorClasses] || colorClasses.blue;
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${colors.gradient} dark:bg-gray-900 flex items-center justify-center p-4 transition-colors duration-200`}>
+    <div className={`min-h-screen bg-gradient-to-br ${colors.gradient} flex items-center justify-center p-4 transition-colors duration-200`}>
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 lg:p-12 border border-gray-200 dark:border-gray-700 transition-colors duration-200">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 lg:p-12 border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200">
           <div className="text-center mb-8">
-            <div className={`inline-flex items-center justify-center w-20 h-20 ${colors.iconBg} rounded-2xl mb-6 shadow-lg`}>
+            <div className={`inline-flex items-center justify-center w-24 h-24 ${colors.iconBg} rounded-3xl mb-6 shadow-xl relative overflow-hidden`}>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
               {icon}
+              <div className="absolute -top-1 -right-1">
+                <Sparkles className="h-4 w-4 text-white/80 animate-pulse" />
+              </div>
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-200">
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-200 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text">
               {title}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto transition-colors duration-200">
+            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto transition-colors duration-200 leading-relaxed">
               {description}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-start space-x-3">
-                <div className={`w-2 h-2 ${colors.accent} rounded-full mt-2 flex-shrink-0`}></div>
-                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-200">{feature}</span>
+              <div key={index} className="flex items-start space-x-4 p-4 rounded-xl bg-gray-50/50 dark:bg-gray-700/30 hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200">
+                <div className={`w-6 h-6 ${colors.accent} rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300 transition-colors duration-200 font-medium">{feature}</span>
               </div>
             ))}
           </div>
@@ -100,14 +106,15 @@ export default function IntroScreen({
           <div className="text-center">
             <button
               onClick={onStart}
-              className={`inline-flex items-center px-8 py-3 ${colors.button} text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105`}
+              className={`inline-flex items-center px-10 py-4 ${colors.button} text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg relative overflow-hidden group`}
             >
-              Get Started
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <span className="relative">Get Started</span>
+              <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200 relative" />
             </button>
             
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4 transition-colors duration-200">
-              This introduction will only show once. You can always access help from the sidebar.
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-6 transition-colors duration-200 max-w-md mx-auto">
+              This introduction will only show once. You can always access help and documentation from the sidebar menu.
             </p>
           </div>
         </div>
