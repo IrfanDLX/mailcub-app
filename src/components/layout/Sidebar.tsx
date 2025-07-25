@@ -127,38 +127,38 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
         {/* Trial Banner - Moved to bottom */}
         {trialInfo.isOnTrial && (
           <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
-            <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-50 dark:from-orange-900/20 dark:via-yellow-900/20 dark:to-amber-900/20 border-2 border-orange-200 dark:border-orange-700/50 rounded-2xl p-5 shadow-lg">
-              <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-2xl mb-3 shadow-lg">
-                  <Zap className="h-6 w-6 text-white" />
+            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <div className="w-6 h-6 bg-orange-500 rounded-lg flex items-center justify-center">
+                    <Zap className="h-3 w-3 text-white" />
+                  </div>
+                  <span className="text-sm font-semibold text-orange-900 dark:text-orange-200">Free Trial</span>
                 </div>
-                <h3 className="text-lg font-bold text-orange-900 dark:text-orange-200 mb-1">Free Trial</h3>
-                <p className="text-sm text-orange-700 dark:text-orange-300">Upgrade to unlock full potential</p>
+                <span className="text-lg font-bold text-orange-900 dark:text-orange-200">
+                  {trialInfo.daysRemaining}
+                </span>
               </div>
               
-              <div className="bg-white/60 dark:bg-gray-800/60 rounded-xl p-4 mb-4 backdrop-blur-sm">
-                <div className="flex items-center justify-center space-x-2 mb-2">
-                  <Calendar className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                  <span className="text-2xl font-bold text-orange-900 dark:text-orange-200">
-                    {trialInfo.daysRemaining}
-                  </span>
-                  <span className="text-sm text-orange-700 dark:text-orange-300 font-medium">
-                    days left
-                  </span>
+              <div className="mb-3">
+                <div className="flex justify-between text-xs text-orange-700 dark:text-orange-300 mb-1">
+                  <span>Days remaining</span>
+                  <span>{trialInfo.daysRemaining} of {trialInfo.totalTrialDays}</span>
                 </div>
-                <div className="text-center">
-                  <span className="text-xs text-orange-600 dark:text-orange-400">
-                    of {trialInfo.totalTrialDays} day trial
-                  </span>
+                <div className="w-full bg-orange-200 dark:bg-orange-800 rounded-full h-2">
+                  <div 
+                    className="bg-orange-500 dark:bg-orange-400 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${trialPercentage}%` }}
+                  ></div>
                 </div>
               </div>
               
               <button 
                 onClick={() => onSectionChange('subscription')}
-                className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center space-x-2"
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center space-x-1"
               >
-                <Crown className="h-4 w-4" />
-                <span>Upgrade Now</span>
+                <Crown className="h-3 w-3" />
+                <span>Upgrade</span>
               </button>
             </div>
           </div>
