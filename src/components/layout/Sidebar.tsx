@@ -12,8 +12,9 @@ import {
   ChevronRight,
   User,
   CreditCard,
-  Clock,
-  Crown
+  Crown,
+  Zap,
+  Calendar
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -63,9 +64,10 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:z-auto
         w-64
+        flex flex-col
       `}>
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 flex-shrink-0">
           <div className="flex items-center">
             <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl p-2.5 shadow-lg">
               <Mail className="h-6 w-6 text-white drop-shadow-sm" />
@@ -77,47 +79,9 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
           </div>
         </div>
 
-        {/* Trial Banner */}
-        {trialInfo.isOnTrial && (
-          <div className="mx-3 mt-4 mb-2">
-            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
-              <div className="flex items-center mb-3">
-                <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg">
-                  <Crown className="h-4 w-4 text-orange-600 dark:text-orange-400" />
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-semibold text-orange-900 dark:text-orange-300">Free Trial</h3>
-                  <p className="text-xs text-orange-700 dark:text-orange-400">
-                    {trialInfo.daysRemaining} days remaining
-                  </p>
-                </div>
-              </div>
-              
-              <div className="mb-3">
-                <div className="flex justify-between text-xs text-orange-700 dark:text-orange-400 mb-1">
-                  <span>Trial Progress</span>
-                  <span>{Math.round(trialPercentage)}%</span>
-                </div>
-                <div className="w-full bg-orange-200 dark:bg-orange-800 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-orange-500 to-yellow-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${trialPercentage}%` }}
-                  ></div>
-                </div>
-              </div>
-              
-              <button 
-                onClick={() => onSectionChange('subscription')}
-                className="w-full text-xs font-medium text-orange-800 dark:text-orange-200 bg-orange-200 dark:bg-orange-800 hover:bg-orange-300 dark:hover:bg-orange-700 py-2 rounded-lg transition-colors"
-              >
-                Upgrade Now
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Navigation */}
-        <nav className="mt-4 px-3 flex-1 overflow-y-auto">
+        <nav className="flex-1 overflow-y-auto py-4">
+          <div className="px-3 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.id;
@@ -127,17 +91,20 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
                 key={item.id}
                 onClick={() => onSectionChange(item.id)}
                 className={`
-                  w-full flex items-center px-3 py-3 text-left rounded-xl mb-1 transition-all duration-200 group
+                  w-full flex items-center px-4 py-3 text-left rounded-xl transition-all duration-200 group relative
                   ${isActive 
-                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 text-green-700 dark:text-green-400 shadow-sm border-l-4 border-green-600 dark:border-green-400' 
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:translate-x-1'
+                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 text-green-700 dark:text-green-400 shadow-lg border border-green-200 dark:border-green-700' 
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:shadow-md'
                   }
                 `}
               >
+                {isActive && (
+                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-green-600 dark:bg-green-400 rounded-r-full"></div>
+                )}
                 <div className={`p-2 rounded-lg mr-3 transition-colors ${
                   isActive 
-                    ? 'bg-green-100 dark:bg-green-800/30' 
-                    : 'group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
+                    ? 'bg-green-100 dark:bg-green-800/50' 
+                    : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
                 }`}>
                   <Icon className={`h-4 w-4 ${
                     isActive 
@@ -149,12 +116,53 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
                   {item.label}
                 </span>
                 {isActive && (
-                  <ChevronRight className="h-4 w-4 ml-auto text-green-700 dark:text-green-400 animate-pulse" />
+                  <ChevronRight className="h-4 w-4 ml-auto text-green-700 dark:text-green-400" />
                 )}
               </button>
             );
           })}
+          </div>
         </nav>
+
+        {/* Trial Banner - Moved to bottom */}
+        {trialInfo.isOnTrial && (
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+            <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-50 dark:from-orange-900/20 dark:via-yellow-900/20 dark:to-amber-900/20 border-2 border-orange-200 dark:border-orange-700/50 rounded-2xl p-5 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-2xl mb-3 shadow-lg">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-orange-900 dark:text-orange-200 mb-1">Free Trial</h3>
+                <p className="text-sm text-orange-700 dark:text-orange-300">Upgrade to unlock full potential</p>
+              </div>
+              
+              <div className="bg-white/60 dark:bg-gray-800/60 rounded-xl p-4 mb-4 backdrop-blur-sm">
+                <div className="flex items-center justify-center space-x-2 mb-2">
+                  <Calendar className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                  <span className="text-2xl font-bold text-orange-900 dark:text-orange-200">
+                    {trialInfo.daysRemaining}
+                  </span>
+                  <span className="text-sm text-orange-700 dark:text-orange-300 font-medium">
+                    days left
+                  </span>
+                </div>
+                <div className="text-center">
+                  <span className="text-xs text-orange-600 dark:text-orange-400">
+                    of {trialInfo.totalTrialDays} day trial
+                  </span>
+                </div>
+              </div>
+              
+              <button 
+                onClick={() => onSectionChange('subscription')}
+                className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center space-x-2"
+              >
+                <Crown className="h-4 w-4" />
+                <span>Upgrade Now</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
