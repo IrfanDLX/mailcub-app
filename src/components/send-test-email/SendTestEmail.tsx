@@ -7,7 +7,7 @@ import IntroScreen from '../intro/IntroScreen';
 import LoadingSkeleton from '../common/LoadingSkeleton';
 
 export default function SendTestEmail() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingSkeleton, setIsLoadingSkeleton] = useState(true);
   const [formData, setFormData] = useState({
     from: emailAccounts.length > 0 ? emailAccounts[0].fullEmail : '',
     to: '',
@@ -22,7 +22,7 @@ export default function SendTestEmail() {
   useEffect(() => {
     // Simulate API call
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsLoadingSkeleton(false);
     }, 800);
 
     return () => clearTimeout(timer);
