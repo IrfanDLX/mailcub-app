@@ -144,7 +144,6 @@ export default function IntroScreen({
               onClick={onStart}
               className="inline-flex items-center px-8 py-4 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg relative overflow-hidden group mb-6"
               style={{ backgroundColor: '#008748' }}
-              style={{ backgroundColor: '#008748' }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
               <span className="relative">Get Started</span>
