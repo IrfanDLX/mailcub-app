@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Bell, User, LogOut, Settings, Menu, X, Sun, Moon, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -40,6 +41,7 @@ const breadcrumbPaths: Record<string, string[]> = {
 export default function Header({ onToggleSidebar, isSidebarOpen, onLogout, currentSection }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const userMenuRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -70,6 +72,17 @@ export default function Header({ onToggleSidebar, isSidebarOpen, onLogout, curre
   const currentTitle = sectionTitles[currentSection] || 'Dashboard';
   const breadcrumbs = breadcrumbPaths[currentSection] || ['Dashboard'];
 
+  const handleSignOutClick = () => {
+    setShowUserMenu(false);
+    setShowSignOutModal(true);
+  };
+
+  const handleConfirmSignOut = () => {
+    setShowSignOutModal(false);
+    if (onLogout) {
+      onLogout();
+    }
+  };
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
       <div className="flex items-center justify-between">
@@ -179,7 +192,7 @@ export default function Header({ onToggleSidebar, isSidebarOpen, onLogout, curre
                   </button>
                   <hr className="my-2" />
                   <button 
-                    onClick={onLogout}
+                    onClick={handleSignOutClick}
                     className="flex items-center w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                   >
                     <LogOut className="h-4 w-4 mr-3" />
@@ -191,6 +204,18 @@ export default function Header({ onToggleSidebar, isSidebarOpen, onLogout, curre
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={showSignOutModal}
+        onClose={() => setShowSignOutModal(false)}
+        onConfirm={handleConfirmSignOut}
+        title="Sign Out"
+        message="Are you sure you want to sign out? You will need to log in again to access your account."
+        confirmText="Sign Out"
+        cancelText="Cancel"
+        type="warning"
+        icon={<LogOut className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />}
+      />
     </header>
   );
 }

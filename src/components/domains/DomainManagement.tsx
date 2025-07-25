@@ -4,7 +4,7 @@ import { Domain } from '../../types';
 import { domains as initialDomains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
-import NoDataFound from '../common/NoDataFound';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const DomainModal = ({ 
   domain, 
@@ -214,6 +214,8 @@ export default function DomainManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDNSModalOpen, setIsDNSModalOpen] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<Domain | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [domainToDelete, setDomainToDelete] = useState<Domain | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
 
   const handleStartUsingDomains = () => {
@@ -254,9 +256,19 @@ export default function DomainManagement() {
   };
 
   const handleDeleteDomain = (id: string) => {
-    if (confirm('Are you sure you want to delete this domain?')) {
-      setDomains(domains.filter(domain => domain.id !== id));
+    const domain = domains.find(d => d.id === id);
+    if (domain) {
+      setDomainToDelete(domain);
+      setShowDeleteModal(true);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    if (domainToDelete) {
+      setDomains(domains.filter(domain => domain.id !== domainToDelete.id));
+      setDomainToDelete(null);
+    }
+    setShowDeleteModal(false);
   };
 
   const handleVerifyDomain = (id: string) => {
@@ -376,13 +388,22 @@ export default function DomainManagement() {
         </div>
 
         {domains.length === 0 ? (
-          <NoDataFound
-            icon={Globe}
-            title="No domains added yet"
-            description="Add your first domain to start sending emails from your own address"
-            actionLabel="Add Domain"
-            onAction={() => setIsModalOpen(true)}
-          />
+          <div className="p-12 text-center">
+            <div className="text-gray-400 dark:text-gray-500 mb-4">
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto">
+                <Globe className="h-6 w-6" />
+              </div>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No domains added yet</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">Add your first domain to start sending emails from your own address</p>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
+            >
+              Add Domain
+            </button>
+          </div>
         ) : (
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {domains.map((domain) => (
@@ -465,6 +486,20 @@ export default function DomainManagement() {
         domain={selectedDomain}
         isOpen={isDNSModalOpen}
         onClose={() => setIsDNSModalOpen(false)}
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setDomainToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Domain"
+        message={`Are you sure you want to delete the domain "${domainToDelete?.domain}"? This action cannot be undone and will affect any email accounts using this domain.`}
+        confirmText="Delete Domain"
+        cancelText="Cancel"
+        type="danger"
       />
     </div>
   );

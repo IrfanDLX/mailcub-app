@@ -4,7 +4,7 @@ import { ApiKey } from '../../types';
 import { apiKeys as initialApiKeys } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
-import EmptyState from '../common/EmptyState';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const ApiKeyModal = ({ 
   apiKey, 
@@ -115,6 +115,8 @@ export default function ApiKeyManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [keyToDelete, setKeyToDelete] = useState<ApiKey | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
 
   const handleStartUsingApiKeys = () => {
@@ -150,9 +152,19 @@ export default function ApiKeyManagement() {
   };
 
   const handleDeleteApiKey = (id: string) => {
-    if (confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
-      setApiKeys(apiKeys.filter(key => key.id !== id));
+    const apiKey = apiKeys.find(k => k.id === id);
+    if (apiKey) {
+      setKeyToDelete(apiKey);
+      setShowDeleteModal(true);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    if (keyToDelete) {
+      setApiKeys(apiKeys.filter(key => key.id !== keyToDelete.id));
+      setKeyToDelete(null);
+    }
+    setShowDeleteModal(false);
   };
 
   const handleSaveApiKey = (apiKeyData: Partial<ApiKey>) => {
@@ -376,6 +388,20 @@ export default function ApiKeyManagement() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveApiKey}
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setKeyToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete API Key"
+        message={`Are you sure you want to delete the API key "${keyToDelete?.name}"? This action cannot be undone and any applications using this key will stop working immediately.`}
+        confirmText="Delete API Key"
+        cancelText="Cancel"
+        type="danger"
       />
     </div>
   );

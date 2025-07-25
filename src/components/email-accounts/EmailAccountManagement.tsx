@@ -4,7 +4,7 @@ import { EmailAccount } from '../../types';
 import { emailAccounts as initialEmailAccounts, domains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
-import EmptyState from '../common/EmptyState';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const EmailAccountModal = ({ 
   account, 
@@ -179,6 +179,8 @@ export default function EmailAccountManagement() {
   const [selectedAccount, setSelectedAccount] = useState<EmailAccount | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [accountToDelete, setAccountToDelete] = useState<EmailAccount | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
 
   const handleStartUsingEmailAccounts = () => {
@@ -220,9 +222,19 @@ export default function EmailAccountManagement() {
   };
 
   const handleDeleteAccount = (id: string) => {
-    if (confirm('Are you sure you want to delete this email account?')) {
-      setEmailAccounts(emailAccounts.filter(account => account.id !== id));
+    const account = emailAccounts.find(a => a.id === id);
+    if (account) {
+      setAccountToDelete(account);
+      setShowDeleteModal(true);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    if (accountToDelete) {
+      setEmailAccounts(emailAccounts.filter(account => account.id !== accountToDelete.id));
+      setAccountToDelete(null);
+    }
+    setShowDeleteModal(false);
   };
 
   const handleSaveAccount = (accountData: Partial<EmailAccount>) => {
@@ -389,6 +401,20 @@ export default function EmailAccountManagement() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveAccount}
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setAccountToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Email Account"
+        message={`Are you sure you want to delete the email account "${accountToDelete?.fullEmail}"? This action cannot be undone and all emails in this account will be permanently lost.`}
+        confirmText="Delete Account"
+        cancelText="Cancel"
+        type="danger"
       />
     </div>
   );

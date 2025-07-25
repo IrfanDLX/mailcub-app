@@ -4,7 +4,7 @@ import { TeamMember } from '../../types';
 import { teamMembers as initialTeamMembers } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
-import EmptyState from '../common/EmptyState';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const TeamMemberModal = ({ 
   member, 
@@ -180,6 +180,8 @@ export default function TeamManagement() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
 
   const handleStartUsingTeam = () => {
@@ -215,9 +217,19 @@ export default function TeamManagement() {
   };
 
   const handleDeleteMember = (id: string) => {
-    if (confirm('Are you sure you want to remove this team member?')) {
-      setTeamMembers(teamMembers.filter(member => member.id !== id));
+    const member = teamMembers.find(m => m.id === id);
+    if (member) {
+      setMemberToDelete(member);
+      setShowDeleteModal(true);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    if (memberToDelete) {
+      setTeamMembers(teamMembers.filter(member => member.id !== memberToDelete.id));
+      setMemberToDelete(null);
+    }
+    setShowDeleteModal(false);
   };
 
   const handleToggleStatus = (id: string) => {
@@ -461,6 +473,20 @@ export default function TeamManagement() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveMember}
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setMemberToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Remove Team Member"
+        message={`Are you sure you want to remove ${memberToDelete?.name} from your team? This action cannot be undone and they will lose access to the workspace immediately.`}
+        confirmText="Remove Member"
+        cancelText="Cancel"
+        type="danger"
       />
     </div>
   );

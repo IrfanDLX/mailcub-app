@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Shield, Bell, Globe } from 'lucide-react';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 interface ProfileData {
   firstName: string;
@@ -34,6 +35,8 @@ export default function Profile() {
     weeklyReports: true
   });
 
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+
   const handleSave = () => {
     // Save profile data
     setIsEditing(false);
@@ -52,6 +55,15 @@ export default function Profile() {
     setNotifications(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
+  const handleDeleteAccountClick = () => {
+    setShowDeleteAccountModal(true);
+  };
+
+  const handleConfirmDeleteAccount = () => {
+    // Handle account deletion logic here
+    console.log('Account deletion confirmed');
+    setShowDeleteAccountModal(false);
+  };
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -341,7 +353,10 @@ export default function Profile() {
               <button className="w-full text-left px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                 API Access
               </button>
-              <button className="w-full text-left px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+              <button 
+                onClick={handleDeleteAccountClick}
+                className="w-full text-left px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+              >
                 Delete Account
               </button>
             </div>
@@ -370,6 +385,17 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={showDeleteAccountModal}
+        onClose={() => setShowDeleteAccountModal(false)}
+        onConfirm={handleConfirmDeleteAccount}
+        title="Delete Account"
+        message="Are you sure you want to permanently delete your account? This action cannot be undone and will result in the permanent loss of all your data, including domains, email accounts, API keys, and team members."
+        confirmText="Delete Account"
+        cancelText="Cancel"
+        type="danger"
+      />
     </div>
   );
 }
