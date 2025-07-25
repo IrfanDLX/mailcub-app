@@ -30,68 +30,9 @@ export default function IntroScreen({
           }}></div>
         </div>
         
-        {/* Demo Interface */}
+        {/* Screen Preview Image */}
         <div className="relative z-10 w-full max-w-md">
-          <div className="bg-gray-700 dark:bg-gray-800 rounded-t-lg p-3 border-b border-gray-600">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <div className="ml-4 text-gray-300 text-sm">MailCub Dashboard</div>
-            </div>
-          </div>
-          
-          <div className="bg-white dark:bg-gray-100 rounded-b-lg p-6 shadow-2xl">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                  {React.cloneElement(icon as React.ReactElement, { 
-                    className: "h-5 w-5 text-white" 
-                  })}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{title}</h3>
-                  <p className="text-xs text-gray-500">Dashboard</p>
-                </div>
-              </div>
-              <div className="w-6 h-6 bg-gray-200 rounded"></div>
-            </div>
-
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <div className="text-lg font-bold text-blue-600">1,247</div>
-                <div className="text-xs text-blue-500">Emails Sent</div>
-              </div>
-              <div className="bg-green-50 p-3 rounded-lg">
-                <div className="text-lg font-bold text-green-600">98.5%</div>
-                <div className="text-xs text-green-500">Delivery Rate</div>
-              </div>
-            </div>
-
-            {/* Chart Area */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-4">
-              <div className="flex items-end space-x-1 h-16">
-                {[40, 65, 45, 80, 55, 70, 85].map((height, index) => (
-                  <div
-                    key={index}
-                    className="bg-green-500 rounded-t flex-1"
-                    style={{ height: `${height}%` }}
-                  ></div>
-                ))}
-              </div>
-            </div>
-
-            {/* Action Button */}
-            <button 
-              className="w-full py-2 px-4 text-white rounded-lg font-medium transition-colors"
-              style={{ backgroundColor: '#008748' }}
-              style={{ backgroundColor: '#008748' }}
-            >
-              View Analytics
-            </button>
-          </div>
+          {getScreenPreview(title)}
         </div>
 
         {/* Floating Elements */}
@@ -175,3 +116,81 @@ export default function IntroScreen({
     </div>
   );
 }
+
+// Helper function to get screen-specific preview images
+const getScreenPreview = (screenTitle: string) => {
+  const getScreenImage = () => {
+    switch (screenTitle) {
+      case 'Team Management':
+        return 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'API Key Management':
+        return 'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'Domain Management':
+        return 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'Email Accounts':
+        return 'https://images.pexels.com/photos/1591062/pexels-photo-1591062.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'Send Test Email':
+        return 'https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'Email Logs':
+        return 'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      case 'Support Tickets':
+        return 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+      default:
+        return 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop';
+    }
+  };
+
+  return (
+    <div className="bg-gray-700 dark:bg-gray-800 rounded-lg overflow-hidden shadow-2xl">
+      {/* Browser Header */}
+      <div className="bg-gray-600 dark:bg-gray-700 p-3 border-b border-gray-500">
+        <div className="flex items-center space-x-2">
+          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div className="ml-4 text-gray-300 text-sm">MailCub - {screenTitle}</div>
+        </div>
+      </div>
+      
+      {/* Screen Preview */}
+      <div className="relative">
+        <img
+          src={getScreenImage()}
+          alt={`${screenTitle} preview`}
+          className="w-full h-64 object-cover"
+        />
+        {/* Overlay to make it look like a dashboard */}
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-gray-900/20"></div>
+        
+        {/* Mock UI Elements */}
+        <div className="absolute top-4 left-4 right-4">
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
+            <div className="flex items-center space-x-2 mb-2">
+              <div className="w-6 h-6 bg-green-600 rounded-lg flex items-center justify-center">
+                <div className="w-3 h-3 bg-white rounded"></div>
+              </div>
+              <div className="flex-1">
+                <div className="h-2 bg-gray-300 rounded w-24 mb-1"></div>
+                <div className="h-1.5 bg-gray-200 rounded w-16"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mock Stats */}
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2">
+              <div className="h-2 bg-blue-400 rounded w-8 mb-1"></div>
+              <div className="h-1 bg-gray-300 rounded w-12"></div>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2">
+              <div className="h-2 bg-green-400 rounded w-10 mb-1"></div>
+              <div className="h-1 bg-gray-300 rounded w-14"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
