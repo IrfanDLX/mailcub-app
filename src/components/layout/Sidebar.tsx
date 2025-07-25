@@ -89,7 +89,10 @@ export default function Sidebar({ activeSection, onSectionChange, isOpen }: Side
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <h4 className="font-medium text-gray-900 dark:text-white mb-1">Need help?</h4>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Contact our support team</p>
-            <button className="w-full bg-green-600 dark:bg-green-700 text-white text-sm py-2 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
+            <button 
+              className="w-full text-white text-sm py-2 rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
+            >
               Get Support
             </button>
           </div>

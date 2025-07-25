@@ -4,6 +4,7 @@ import { SupportTicket, TicketMessage } from '../../types';
 import { supportTickets as initialSupportTickets } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const TicketModal = ({ 
   ticket, 

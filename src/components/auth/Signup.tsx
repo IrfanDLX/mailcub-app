@@ -323,7 +323,8 @@ export default function Signup({ onSwitchToLogin, onSignup }: SignupProps) {
                   <button
                     type="submit"
                     disabled={isLoading || !formData.acceptTerms}
-                    className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group"
+                    className="flex-1 text-white py-3 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group"
+                    style={{ backgroundColor: '#008748' }}
                   >
                     {isLoading ? (
                       <>
@@ -355,7 +356,8 @@ export default function Signup({ onSwitchToLogin, onSignup }: SignupProps) {
               <button
                 onClick={onSwitchToLogin}
                 className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
-              >
+                className="w-full text-white py-3 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center group"
+                style={{ backgroundColor: '#008748' }}
                 Sign in to your account →
               </button>
             </div>

@@ -31,7 +31,8 @@ export default function Profile() {
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Profile</h1>
         <button
           onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-          className="flex items-center px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           {isEditing ? (
             <>
@@ -245,6 +246,10 @@ export default function Profile() {
                   <p className="text-sm text-gray-600 dark:text-gray-400">Add an extra layer of security to your account</p>
                 </div>
                 <button className="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
+                <button 
+                  className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+                  style={{ backgroundColor: '#008748' }}
+                >
                   Enable
                 </button>
               </div>

@@ -260,7 +260,8 @@ export default function Subscription() {
               ) : canUpgrade(plan) ? (
                 <button
                   onClick={() => handleUpgrade(plan)}
-                  className="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
+                  className="w-full py-2 px-4 text-white rounded-lg hover:opacity-90 transition-colors flex items-center justify-center"
+                  style={{ backgroundColor: '#008748' }}
                 >
                   Upgrade to {plan.name}
                   <ArrowRight className="h-4 w-4 ml-2" />
@@ -369,7 +370,8 @@ export default function Subscription() {
                   // Handle upgrade logic here
                   setShowUpgradeModal(false);
                 }}
-                className="flex-1 py-2 px-4 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+                className="flex-1 py-2 px-4 text-white rounded-lg hover:opacity-90 transition-colors"
+                style={{ backgroundColor: '#008748' }}
               >
                 Confirm Upgrade
               </button>

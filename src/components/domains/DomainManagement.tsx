@@ -4,6 +4,7 @@ import { Domain } from '../../types';
 import { domains as initialDomains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const DomainModal = ({ 
   domain, 
@@ -64,7 +65,8 @@ const DomainModal = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
             >
               {domain ? 'Update' : 'Add'} Domain
             </button>
@@ -265,6 +267,10 @@ const DNSVerificationModal = ({
               Close
             </button>
             <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button 
+              className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
+            >
               <RefreshCw className="h-4 w-4 mr-2" />
               Verify DNS Records
             </button>
@@ -376,7 +382,8 @@ export default function DomainManagement() {
         </div>
         <button
           onClick={handleAddDomain}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Domain
@@ -463,7 +470,8 @@ export default function DomainManagement() {
           <p className="text-gray-600 dark:text-gray-400 mb-4">Add your first domain to start sending emails through MailCub</p>
           <button
             onClick={handleAddDomain}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+            style={{ backgroundColor: '#008748' }}
           >
             Add Domain
           </button>

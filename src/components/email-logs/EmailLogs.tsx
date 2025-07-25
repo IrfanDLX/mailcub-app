@@ -4,6 +4,7 @@ import { EmailLog } from '../../types';
 import { emailLogs as initialEmailLogs } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const EmailDetailModal = ({ 
   email, 
@@ -182,7 +183,8 @@ export default function EmailLogs() {
         </div>
         <button
           onClick={exportLogs}
-          className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           <Download className="h-4 w-4 mr-2" />
           Export Logs

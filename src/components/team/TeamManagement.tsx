@@ -4,6 +4,7 @@ import { TeamMember } from '../../types';
 import { teamMembers as initialTeamMembers } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const TeamMemberModal = ({ 
   member, 
@@ -163,7 +164,8 @@ const TeamMemberModal = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
             >
               {member ? 'Update' : 'Invite'} Member
             </button>
@@ -282,7 +284,8 @@ export default function TeamManagement() {
         </div>
         <button
           onClick={handleInviteMember}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           <Plus className="h-4 w-4 mr-2" />
           Invite Member
@@ -444,7 +447,8 @@ export default function TeamManagement() {
             <p className="text-gray-600 dark:text-gray-400 mb-4">Invite your first team member to start collaborating</p>
             <button
               onClick={handleInviteMember}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
             >
               Invite Member
             </button>

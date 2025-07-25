@@ -4,6 +4,7 @@ import { ApiKey } from '../../types';
 import { apiKeys as initialApiKeys } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const ApiKeyModal = ({ 
   apiKey, 
@@ -96,7 +97,8 @@ const ApiKeyModal = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
             >
               {apiKey ? 'Update' : 'Create'} API Key
             </button>
@@ -214,7 +216,8 @@ export default function ApiKeyManagement() {
         </div>
         <button
           onClick={handleAddApiKey}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           <Plus className="h-4 w-4 mr-2" />
           Create API Key
@@ -359,7 +362,8 @@ export default function ApiKeyManagement() {
             <p className="text-gray-600 dark:text-gray-400 mb-4">Create your first API key to start integrating with MailCub</p>
             <button
               onClick={handleAddApiKey}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+             className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+             style={{ backgroundColor: '#008748' }}
             >
               Create API Key
             </button>

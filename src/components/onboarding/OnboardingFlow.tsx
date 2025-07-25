@@ -330,7 +330,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               
               <button
                 onClick={handleNext}
-                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 flex items-center group"
+                className="px-8 py-3 text-white rounded-lg hover:opacity-90 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 flex items-center group"
+                style={{ backgroundColor: '#008748' }}
               >
                 {currentStep === steps.length - 1 ? 'Get Started' : 'Continue'}
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

@@ -4,6 +4,7 @@ import { EmailAccount } from '../../types';
 import { emailAccounts as initialEmailAccounts, domains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import EmptyState from '../common/EmptyState';
 
 const EmailAccountModal = ({ 
   account, 
@@ -161,7 +162,8 @@ const EmailAccountModal = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+              style={{ backgroundColor: '#008748' }}
             >
               {account ? 'Update' : 'Create'} Account
             </button>
@@ -261,7 +263,8 @@ export default function EmailAccountManagement() {
         </div>
         <button
           onClick={handleAddAccount}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+          style={{ backgroundColor: '#008748' }}
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Account
@@ -371,7 +374,8 @@ export default function EmailAccountManagement() {
             {!searchTerm && (
               <button
                 onClick={handleAddAccount}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+               className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors"
+               style={{ backgroundColor: '#008748' }}
               >
                 Create Account
               </button>
