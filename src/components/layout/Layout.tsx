@@ -17,7 +17,7 @@ export default function Layout({ children, activeSection, onSectionChange, onLog
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <Sidebar 
         activeSection={activeSection} 
         onSectionChange={onSectionChange}
@@ -32,7 +32,7 @@ export default function Layout({ children, activeSection, onSectionChange, onLog
           currentSection={activeSection}
         />
         
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-900">
           {children}
         </main>
       </div>
