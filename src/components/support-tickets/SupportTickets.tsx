@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Plus, MessageCircle, Clock, CheckCircle, AlertCircle, Send, X, Paperclip, User, HelpCircle } from 'lucide-react';
 import { SupportTicket, TicketMessage } from '../../types';
 import { supportTickets as initialSupportTickets } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import EmptyState from '../common/EmptyState';
+import LoadingSkeleton, { StatCardSkeleton } from '../common/LoadingSkeleton';
 
 const TicketModal = ({ 
   ticket, 
@@ -276,11 +278,22 @@ const getPriorityColor = (priority: string) => {
 
 export default function SupportTickets() {
   const [supportTickets, setSupportTickets] = useState<SupportTicket[]>(initialSupportTickets);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedTicket, setSelectedTicket] = useState<SupportTicket | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState('all');
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setSupportTickets(initialSupportTickets);
+      setIsLoading(false);
+    }, 1600);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingSupportTickets = () => {
     markIntroAsSeen('support-tickets');
@@ -301,6 +314,76 @@ export default function SupportTickets() {
         onStart={handleStartUsingSupportTickets}
         primaryColor="pink"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={150} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={120} height={40} className="rounded-lg" />
+        </div>
+
+        {/* Stats Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* Filter Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center space-x-4">
+            <LoadingSkeleton variant="text" width={120} />
+            <LoadingSkeleton variant="rectangular" width={150} height={40} className="rounded-lg" />
+          </div>
+        </div>
+
+        {/* Support Tickets List Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <LoadingSkeleton variant="text" width={150} className="mb-2" />
+            <LoadingSkeleton variant="text" width={120} />
+          </div>
+
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <LoadingSkeleton variant="text" width={200} />
+                      <LoadingSkeleton variant="rectangular" width={50} height={20} className="rounded-full" />
+                      <LoadingSkeleton variant="rectangular" width={60} height={20} className="rounded-full" />
+                    </div>
+                    
+                    <div className="flex items-center space-x-4 mb-2">
+                      <LoadingSkeleton variant="text" width={80} />
+                      <LoadingSkeleton variant="text" width={120} />
+                      <LoadingSkeleton variant="text" width={140} />
+                      <LoadingSkeleton variant="text" width={100} />
+                    </div>
+
+                    <LoadingSkeleton variant="text" lines={2} />
+                  </div>
+
+                  <div className="flex items-center space-x-2 ml-4">
+                    <LoadingSkeleton variant="rectangular" width={16} height={16} className="rounded" />
+                    <div className="flex items-center">
+                      <LoadingSkeleton variant="rectangular" width={16} height={16} className="rounded mr-1" />
+                      <LoadingSkeleton variant="text" width={20} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

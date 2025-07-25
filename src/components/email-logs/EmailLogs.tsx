@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Search, Filter, Download, Mail, CheckCircle, XCircle, Clock, AlertTriangle, Eye, Calendar } from 'lucide-react';
 import { EmailLog } from '../../types';
 import { emailLogs as initialEmailLogs } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import EmptyState from '../common/EmptyState';
+import LoadingSkeleton, { StatCardSkeleton, TableRowSkeleton } from '../common/LoadingSkeleton';
 
 const EmailDetailModal = ({ 
   email, 
@@ -104,11 +106,22 @@ const getStatusColor = (status: string) => {
 
 export default function EmailLogs() {
   const [emailLogs, setEmailLogs] = useState<EmailLog[]>(initialEmailLogs);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedEmail, setSelectedEmail] = useState<EmailLog | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setEmailLogs(initialEmailLogs);
+      setIsLoading(false);
+    }, 1400);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingEmailLogs = () => {
     markIntroAsSeen('email-logs');
@@ -129,6 +142,62 @@ export default function EmailLogs() {
         onStart={handleStartUsingEmailLogs}
         primaryColor="teal"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={120} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={120} height={40} className="rounded-lg" />
+        </div>
+
+        {/* Stats Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* Filters Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <LoadingSkeleton variant="rectangular" width="100%" height={40} className="rounded-lg" />
+            <LoadingSkeleton variant="rectangular" width={200} height={40} className="rounded-lg" />
+          </div>
+        </div>
+
+        {/* Email Logs Table Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <LoadingSkeleton variant="text" width={120} className="mb-2" />
+            <LoadingSkeleton variant="text" width={150} />
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  {['Status', 'From', 'To', 'Subject', 'Date', 'Actions'].map((header, index) => (
+                    <th key={index} className="px-6 py-3 text-left">
+                      <LoadingSkeleton variant="text" width={60} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <TableRowSkeleton key={index} columns={6} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     );
   }
 

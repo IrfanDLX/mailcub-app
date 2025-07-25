@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Shield, Bell, Globe } from 'lucide-react';
 import ConfirmationModal from '../common/ConfirmationModal';
+import LoadingSkeleton from '../common/LoadingSkeleton';
 
 interface ProfileData {
   firstName: string;
@@ -16,6 +18,7 @@ interface ProfileData {
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [profileData, setProfileData] = useState<ProfileData>({
     firstName: 'John',
     lastName: 'Doe',
@@ -36,6 +39,15 @@ export default function Profile() {
   });
 
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSave = () => {
     // Save profile data
@@ -64,6 +76,99 @@ export default function Profile() {
     console.log('Account deletion confirmed');
     setShowDeleteAccountModal(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <LoadingSkeleton variant="text" width={150} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={120} height={40} className="rounded-lg" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Profile Information Skeleton */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={180} className="mb-6" />
+              
+              <div className="space-y-6">
+                <div className="flex items-center space-x-6">
+                  <LoadingSkeleton variant="circular" width={80} height={80} />
+                  <div>
+                    <LoadingSkeleton variant="text" width={150} className="mb-2" />
+                    <LoadingSkeleton variant="text" width={180} className="mb-1" />
+                    <LoadingSkeleton variant="text" width={120} />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <div key={index}>
+                      <LoadingSkeleton variant="text" width={80} className="mb-2" />
+                      <LoadingSkeleton variant="text" width="100%" />
+                    </div>
+                  ))}
+                </div>
+
+                <div>
+                  <LoadingSkeleton variant="text" width={40} className="mb-2" />
+                  <LoadingSkeleton variant="text" lines={4} />
+                </div>
+              </div>
+            </div>
+
+            {/* Notification Preferences Skeleton */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={200} className="mb-6" />
+              
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <LoadingSkeleton variant="rectangular" width={20} height={20} className="rounded mr-3" />
+                      <div>
+                        <LoadingSkeleton variant="text" width={120} className="mb-1" />
+                        <LoadingSkeleton variant="text" width={200} />
+                      </div>
+                    </div>
+                    <LoadingSkeleton variant="rectangular" width={44} height={24} className="rounded-full" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Account Settings Sidebar Skeleton */}
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={120} className="mb-4" />
+              <div className="space-y-3">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <LoadingSkeleton key={index} variant="text" width="100%" height={32} className="rounded-lg" />
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={100} className="mb-4" />
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="flex justify-between">
+                    <LoadingSkeleton variant="text" width={100} />
+                    <LoadingSkeleton variant="text" width={60} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Plus, Globe, CheckCircle, XCircle, Clock, Copy, RefreshCw, Trash2, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { Domain } from '../../types';
 import { domains as initialDomains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import ConfirmationModal from '../common/ConfirmationModal';
+import LoadingSkeleton, { StatCardSkeleton } from '../common/LoadingSkeleton';
 
 const DomainModal = ({ 
   domain, 
@@ -211,12 +213,23 @@ const DNSRecordsModal = ({
 
 export default function DomainManagement() {
   const [domains, setDomains] = useState<Domain[]>(initialDomains);
+  const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDNSModalOpen, setIsDNSModalOpen] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<Domain | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [domainToDelete, setDomainToDelete] = useState<Domain | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setDomains(initialDomains);
+      setIsLoading(false);
+    }, 1300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingDomains = () => {
     markIntroAsSeen('domains');
@@ -237,6 +250,70 @@ export default function DomainManagement() {
         onStart={handleStartUsingDomains}
         primaryColor="green"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={200} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={250} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={120} height={40} className="rounded-lg" />
+        </div>
+
+        {/* Stats Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* Domains List Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <LoadingSkeleton variant="text" width={120} className="mb-2" />
+            <LoadingSkeleton variant="text" width={180} />
+          </div>
+
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <LoadingSkeleton variant="text" width={150} />
+                      <LoadingSkeleton variant="rectangular" width={60} height={24} className="rounded-full" />
+                    </div>
+
+                    <div className="flex items-center space-x-6 mb-3">
+                      <LoadingSkeleton variant="text" width={120} />
+                      <LoadingSkeleton variant="text" width={140} />
+                    </div>
+
+                    <div className="flex items-center space-x-4">
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <LoadingSkeleton variant="text" width={30} />
+                          <LoadingSkeleton variant="rectangular" width={16} height={16} className="rounded" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2 ml-4">
+                    <LoadingSkeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded-lg" />
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded-lg" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

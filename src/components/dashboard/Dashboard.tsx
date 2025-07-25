@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, TrendingDown, Mail, Globe, Users, Key, Database, CheckCircle } from 'lucide-react';
 import { dashboardStats } from '../../data/dummyData';
+import LoadingSkeleton, { StatCardSkeleton } from '../common/LoadingSkeleton';
 
 const StatCard = ({ title, value, total, icon: Icon, trend, color = 'blue' }: any) => {
   const percentage = total ? Math.round((value / total) * 100) : 0;
@@ -56,6 +58,81 @@ const StatCard = ({ title, value, total, icon: Icon, trend, color = 'blue' }: an
 };
 
 export default function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(dashboardStats);
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setData(dashboardStats);
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <LoadingSkeleton variant="text" width={200} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={150} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={120} height={32} className="rounded-full" />
+        </div>
+
+        {/* Stats Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* Storage Card Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <LoadingSkeleton variant="rectangular" width={48} height={48} className="rounded-lg mr-4" />
+              <div>
+                <LoadingSkeleton variant="text" width={120} className="mb-2" />
+                <LoadingSkeleton variant="text" width={80} />
+              </div>
+            </div>
+            <div className="text-right">
+              <LoadingSkeleton variant="text" width={60} className="mb-1" />
+              <LoadingSkeleton variant="text" width={40} />
+            </div>
+          </div>
+          <LoadingSkeleton variant="rectangular" height={12} className="rounded-full" />
+        </div>
+
+        {/* Email Stats Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={120} className="mb-4" />
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <LoadingSkeleton variant="text" width={80} />
+                    <LoadingSkeleton variant="text" width={60} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Chart Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <LoadingSkeleton variant="text" width={200} className="mb-4" />
+          <LoadingSkeleton variant="rectangular" height={320} />
+        </div>
+      </div>
+    );
+  }
+
   const { domains, emails, webmails, accountStatus, totalApiKeys, totalStorage, emailStats } = dashboardStats;
 
   const pieData = [

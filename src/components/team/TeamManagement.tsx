@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Plus, Edit, Trash2, X, Users, Mail, Shield, UserCheck, UserX, Crown } from 'lucide-react';
 import { TeamMember } from '../../types';
 import { teamMembers as initialTeamMembers } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import ConfirmationModal from '../common/ConfirmationModal';
+import LoadingSkeleton, { StatCardSkeleton, CardSkeleton } from '../common/LoadingSkeleton';
 
 const TeamMemberModal = ({ 
   member, 
@@ -178,11 +180,22 @@ const TeamMemberModal = ({
 
 export default function TeamManagement() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setTeamMembers(initialTeamMembers);
+      setIsLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingTeam = () => {
     markIntroAsSeen('team');
@@ -203,6 +216,72 @@ export default function TeamManagement() {
         onStart={handleStartUsingTeam}
         primaryColor="blue"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={200} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={140} height={40} className="rounded-lg" />
+        </div>
+
+        {/* Stats Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* Team Members List Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <LoadingSkeleton variant="text" width={150} className="mb-2" />
+            <LoadingSkeleton variant="text" width={200} />
+          </div>
+
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <LoadingSkeleton variant="circular" width={48} height={48} />
+                    <div>
+                      <LoadingSkeleton variant="text" width={120} className="mb-2" />
+                      <LoadingSkeleton variant="text" width={180} className="mb-2" />
+                      <div className="flex items-center space-x-2">
+                        <LoadingSkeleton variant="rectangular" width={60} height={24} className="rounded-full" />
+                        <LoadingSkeleton variant="rectangular" width={50} height={24} className="rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-right mr-4">
+                      <LoadingSkeleton variant="text" width={100} className="mb-1" />
+                      <LoadingSkeleton variant="text" width={80} />
+                    </div>
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded-lg" />
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded-lg" />
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded-lg" />
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <LoadingSkeleton variant="text" width={100} className="mb-2" />
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <LoadingSkeleton key={i} variant="rectangular" width={80} height={24} className="rounded" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

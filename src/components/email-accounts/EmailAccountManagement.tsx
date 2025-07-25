@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Plus, Edit, Trash2, Mail, User, X, Eye, EyeOff, AtSign } from 'lucide-react';
 import { EmailAccount } from '../../types';
 import { emailAccounts as initialEmailAccounts, domains } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import ConfirmationModal from '../common/ConfirmationModal';
+import LoadingSkeleton from '../common/LoadingSkeleton';
 
 const EmailAccountModal = ({ 
   account, 
@@ -176,12 +178,23 @@ const EmailAccountModal = ({
 
 export default function EmailAccountManagement() {
   const [emailAccounts, setEmailAccounts] = useState<EmailAccount[]>(initialEmailAccounts);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedAccount, setSelectedAccount] = useState<EmailAccount | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [accountToDelete, setAccountToDelete] = useState<EmailAccount | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setEmailAccounts(initialEmailAccounts);
+      setIsLoading(false);
+    }, 1100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingEmailAccounts = () => {
     markIntroAsSeen('email-accounts');
@@ -202,6 +215,64 @@ export default function EmailAccountManagement() {
         onStart={handleStartUsingEmailAccounts}
         primaryColor="indigo"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={150} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={140} height={40} className="rounded-lg" />
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <LoadingSkeleton variant="text" width={150} className="mb-2" />
+                <LoadingSkeleton variant="text" width={120} />
+              </div>
+              <LoadingSkeleton variant="rectangular" width={200} height={40} className="rounded-lg" />
+            </div>
+          </div>
+
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <LoadingSkeleton variant="rectangular" width={48} height={48} className="rounded-lg" />
+                    <div>
+                      <LoadingSkeleton variant="text" width={180} className="mb-2" />
+                      <div className="flex items-center space-x-4">
+                        <LoadingSkeleton variant="text" width={120} />
+                        <LoadingSkeleton variant="rectangular" width={60} height={20} className="rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-6">
+                    <div className="text-right">
+                      <LoadingSkeleton variant="text" width={100} className="mb-1" />
+                      <LoadingSkeleton variant="text" width={60} className="mb-1" />
+                      <LoadingSkeleton variant="rectangular" width={80} height={8} className="rounded-full" />
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded" />
+                      <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

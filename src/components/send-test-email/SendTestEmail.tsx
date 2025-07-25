@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Send, Mail, User, FileText, Paperclip, CheckCircle, TestTube } from 'lucide-react';
 import { emailAccounts } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
+import LoadingSkeleton from '../common/LoadingSkeleton';
 
 export default function SendTestEmail() {
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     from: emailAccounts.length > 0 ? emailAccounts[0].fullEmail : '',
     to: '',
@@ -15,6 +18,15 @@ export default function SendTestEmail() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingSendTestEmail = () => {
     markIntroAsSeen('send-test-email');
@@ -35,6 +47,104 @@ export default function SendTestEmail() {
         onStart={handleStartUsingSendTestEmail}
         primaryColor="orange"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <LoadingSkeleton variant="text" width={180} height={32} className="mb-2" />
+          <LoadingSkeleton variant="text" width={300} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Email Composer Skeleton */}
+          <div className="lg:col-span-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <LoadingSkeleton variant="text" width={120} />
+              </div>
+
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <LoadingSkeleton variant="text" width={40} className="mb-2" />
+                    <LoadingSkeleton variant="rectangular" height={40} className="rounded-lg" />
+                  </div>
+                  <div>
+                    <LoadingSkeleton variant="text" width={30} className="mb-2" />
+                    <LoadingSkeleton variant="rectangular" height={40} className="rounded-lg" />
+                  </div>
+                </div>
+
+                <div>
+                  <LoadingSkeleton variant="text" width={60} className="mb-2" />
+                  <LoadingSkeleton variant="rectangular" height={40} className="rounded-lg" />
+                </div>
+
+                <div>
+                  <LoadingSkeleton variant="text" width={60} className="mb-2" />
+                  <LoadingSkeleton variant="rectangular" height={200} className="rounded-lg" />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <LoadingSkeleton variant="rectangular" width={100} height={20} className="rounded" />
+                    <LoadingSkeleton variant="rectangular" width={80} height={20} className="rounded" />
+                  </div>
+                  <LoadingSkeleton variant="rectangular" width={120} height={40} className="rounded-lg" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar Skeleton */}
+          <div className="space-y-6">
+            {/* Quick Stats Skeleton */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={100} className="mb-4" />
+              <div className="space-y-4">
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <LoadingSkeleton variant="rectangular" width={16} height={16} className="rounded mr-2" />
+                      <LoadingSkeleton variant="text" width={100} />
+                    </div>
+                    <LoadingSkeleton variant="text" width={20} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Email Templates Skeleton */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+              <LoadingSkeleton variant="text" width={120} className="mb-4" />
+              <div className="space-y-3">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <LoadingSkeleton variant="text" width="80%" className="mb-1" />
+                    <LoadingSkeleton variant="text" width="60%" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tips Skeleton */}
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-xl p-6">
+              <LoadingSkeleton variant="text" width={100} className="mb-3" />
+              <div className="space-y-2">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="flex items-start">
+                    <LoadingSkeleton variant="rectangular" width={6} height={6} className="rounded-full mt-2 mr-2" />
+                    <LoadingSkeleton variant="text" width="90%" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 

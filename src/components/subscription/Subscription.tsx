@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { CreditCard, Calendar, Users, Mail, Database, Zap, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
+import LoadingSkeleton from '../common/LoadingSkeleton';
 
 interface Plan {
   id: string;
@@ -87,8 +89,18 @@ const plans: Plan[] = [
 
 export default function Subscription() {
   const [currentPlan] = useState<Plan>(plans[0]); // Assuming user is on starter plan
+  const [isLoading, setIsLoading] = useState(true);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 900);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleUpgrade = (plan: Plan) => {
     setSelectedPlan(plan);
@@ -103,6 +115,133 @@ export default function Subscription() {
     if (num === -1) return 'Unlimited';
     return num.toLocaleString();
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <LoadingSkeleton variant="text" width={120} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={250} />
+          </div>
+        </div>
+
+        {/* Current Plan Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <LoadingSkeleton variant="text" width={120} />
+            <LoadingSkeleton variant="rectangular" width={80} height={24} className="rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <div className="flex items-center mb-4">
+                <LoadingSkeleton variant="rectangular" width={48} height={48} className="rounded-lg mr-4" />
+                <div>
+                  <LoadingSkeleton variant="text" width={100} className="mb-1" />
+                  <LoadingSkeleton variant="text" width={60} />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <LoadingSkeleton variant="text" width={120} />
+                    <LoadingSkeleton variant="text" width={100} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <LoadingSkeleton variant="text" width={120} className="mb-4" />
+              <div className="space-y-4">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <LoadingSkeleton variant="text" width={80} />
+                      <LoadingSkeleton variant="text" width={100} />
+                    </div>
+                    <LoadingSkeleton variant="rectangular" height={8} className="rounded-full" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Available Plans Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <LoadingSkeleton variant="text" width={150} className="mb-6" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+                <div className="text-center mb-6">
+                  <LoadingSkeleton variant="text" width={80} className="mb-2 mx-auto" />
+                  <LoadingSkeleton variant="text" width={100} height={40} className="mx-auto" />
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="flex items-start">
+                      <LoadingSkeleton variant="rectangular" width={16} height={16} className="rounded mr-2 mt-0.5" />
+                      <LoadingSkeleton variant="text" width="80%" />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-2 mb-6">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex justify-between">
+                      <LoadingSkeleton variant="text" width={80} />
+                      <LoadingSkeleton variant="text" width={60} />
+                    </div>
+                  ))}
+                </div>
+
+                <LoadingSkeleton variant="rectangular" height={40} className="rounded-lg" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Billing History Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <LoadingSkeleton variant="text" width={120} className="mb-6" />
+          
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700">
+                  {['Date', 'Description', 'Amount', 'Status', 'Invoice'].map((_, index) => (
+                    <th key={index} className="text-left py-3">
+                      <LoadingSkeleton variant="text" width={80} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <tr key={index}>
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <td key={i} className="py-3">
+                        {i === 3 ? (
+                          <LoadingSkeleton variant="rectangular" width={60} height={20} className="rounded-full" />
+                        ) : (
+                          <LoadingSkeleton variant="text" width={100} />
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Plus, Copy, Eye, EyeOff, Trash2, Edit, X, Key, Calendar, Activity } from 'lucide-react';
 import { ApiKey } from '../../types';
 import { apiKeys as initialApiKeys } from '../../data/dummyData';
 import { useIntro } from '../../contexts/IntroContext';
 import IntroScreen from '../intro/IntroScreen';
 import ConfirmationModal from '../common/ConfirmationModal';
+import LoadingSkeleton, { StatCardSkeleton } from '../common/LoadingSkeleton';
 
 const ApiKeyModal = ({ 
   apiKey, 
@@ -111,6 +113,7 @@ const ApiKeyModal = ({
 
 export default function ApiKeyManagement() {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>(initialApiKeys);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedApiKey, setSelectedApiKey] = useState<ApiKey | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
@@ -118,6 +121,16 @@ export default function ApiKeyManagement() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [keyToDelete, setKeyToDelete] = useState<ApiKey | null>(null);
   const { hasSeenIntro, markIntroAsSeen } = useIntro();
+
+  useEffect(() => {
+    // Simulate API call
+    const timer = setTimeout(() => {
+      setApiKeys(initialApiKeys);
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleStartUsingApiKeys = () => {
     markIntroAsSeen('api-keys');
@@ -138,6 +151,72 @@ export default function ApiKeyManagement() {
         onStart={handleStartUsingApiKeys}
         primaryColor="purple"
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <LoadingSkeleton variant="text" width={200} height={32} className="mb-2" />
+            <LoadingSkeleton variant="text" width={300} />
+          </div>
+          <LoadingSkeleton variant="rectangular" width={140} height={40} className="rounded-lg" />
+        </div>
+
+        {/* Stats Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <StatCardSkeleton key={index} />
+          ))}
+        </div>
+
+        {/* API Keys List Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <LoadingSkeleton variant="text" width={100} className="mb-2" />
+            <LoadingSkeleton variant="text" width={150} />
+          </div>
+
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <LoadingSkeleton variant="text" width={150} />
+                      <LoadingSkeleton variant="rectangular" width={60} height={24} className="rounded-full" />
+                    </div>
+
+                    <div className="flex items-center space-x-4 mb-3">
+                      <LoadingSkeleton variant="rectangular" width={300} height={36} className="rounded-lg" />
+                    </div>
+
+                    <div className="flex items-center space-x-6 text-sm">
+                      <LoadingSkeleton variant="text" width={120} />
+                      <LoadingSkeleton variant="text" width={100} />
+                      <LoadingSkeleton variant="text" width={140} />
+                    </div>
+
+                    <div className="flex items-center space-x-2 mt-2">
+                      <LoadingSkeleton variant="text" width={80} />
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <LoadingSkeleton key={i} variant="rectangular" width={50} height={20} className="rounded" />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2 ml-4">
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded" />
+                    <LoadingSkeleton variant="rectangular" width={32} height={32} className="rounded" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 
